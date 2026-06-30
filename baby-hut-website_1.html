@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Baby Hut</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --blush: #fdf0f3;
+    --rose: #f2c9d4;
+    --rose-mid: #e8a0b5;
+    --rose-dark: #c4607e;
+    --sage: #e8f0e9;
+    --sage-mid: #b5ceb8;
+    --sky: #e8f2fb;
+    --sky-mid: #b5d2f0;
+    --cream: #fdf8f3;
+    --linen: #f7efe8;
+    --text-dark: #3d2e36;
+    --text-mid: #7a5e6a;
+    --text-light: #b09aa6;
+    --white: #ffffff;
+    --radius: 18px;
+    --radius-sm: 10px;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--white);
+    border-bottom: 1px solid var(--rose);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    color: var(--rose-dark);
+    letter-spacing: 0.02em;
+  }
+  .logo span { color: var(--text-mid); font-size: 0.85rem; font-family: 'DM Sans', sans-serif; display: block; font-weight: 300; letter-spacing: 0.08em; }
+  .nav-links { display: flex; gap: 1.75rem; }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--text-mid);
+    font-size: 0.875rem;
+    font-weight: 400;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--rose-dark); }
+  .nav-links a.active { font-weight: 500; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, var(--blush) 0%, var(--sky) 60%, var(--sage) 100%);
+    padding: 4rem 2rem 3.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    width: 340px; height: 340px;
+    border-radius: 50%;
+    background: rgba(242,201,212,0.35);
+    top: -80px; left: -80px;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    width: 260px; height: 260px;
+    border-radius: 50%;
+    background: rgba(181,210,240,0.3);
+    bottom: -60px; right: -40px;
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 580px; margin: 0 auto; }
+  .hero-eyebrow {
+    display: inline-block;
+    background: var(--white);
+    color: var(--rose-dark);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 99px;
+    border: 1px solid var(--rose);
+    margin-bottom: 1.25rem;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--text-dark);
+    margin-bottom: 1rem;
+  }
+  .hero h1 em { color: var(--rose-dark); font-style: italic; }
+  .hero p {
+    font-size: 1rem;
+    color: var(--text-mid);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+    font-weight: 300;
+  }
+  .hero-cta {
+    display: inline-block;
+    background: var(--rose-dark);
+    color: var(--white);
+    padding: 14px 32px;
+    border-radius: 99px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .hero-cta:hover { background: #b05470; transform: translateY(-1px); }
+
+  /* FILTER BAR */
+  .filter-bar {
+    padding: 1.5rem 2rem;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    border-bottom: 1px solid var(--rose);
+    background: var(--white);
+  }
+  .filter-label { font-size: 0.8rem; color: var(--text-light); margin-right: 4px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .filter-btn {
+    border: 1px solid var(--rose);
+    background: transparent;
+    color: var(--text-mid);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    padding: 7px 16px;
+    border-radius: 99px;
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .filter-btn:hover { border-color: var(--rose-dark); color: var(--rose-dark); }
+  .filter-btn.active { background: var(--rose-dark); color: var(--white); border-color: var(--rose-dark); }
+
+  /* SHOP GRID */
+  .shop-section { padding: 2.5rem 2rem 4rem; max-width: 1080px; margin: 0 auto; }
+  .section-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 1.75rem; }
+  .section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--text-dark);
+  }
+  .count-badge {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    background: var(--linen);
+    padding: 4px 12px;
+    border-radius: 99px;
+  }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .product-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--rose);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+  }
+  .product-card:hover { transform: translateY(-4px); box-shadow: 0 8px 32px rgba(196,96,126,0.12); }
+
+  .card-img {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .card-img .emoji-placeholder {
+    font-size: 3rem;
+  }
+  .card-img.blush { background: var(--blush); }
+  .card-img.sky { background: var(--sky); }
+  .card-img.sage { background: var(--sage); }
+  .card-img.linen { background: var(--linen); }
+
+  .card-badge {
+    position: absolute;
+    top: 12px; left: 12px;
+    background: var(--rose-dark);
+    color: var(--white);
+    font-size: 0.65rem;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 99px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    z-index: 1;
+  }
+  .card-badge.bestseller { background: #d4823e; }
+  .card-badge.new { background: var(--sage-mid); color: #2a4d2e; }
+
+  .card-body { padding: 1rem 1.1rem 1.2rem; flex: 1; display: flex; flex-direction: column; }
+  .card-category {
+    font-size: 0.7rem;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.3rem;
+  }
+  .card-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--text-dark);
+    margin-bottom: 0.4rem;
+    line-height: 1.4;
+  }
+  .card-desc {
+    font-size: 0.8rem;
+    color: var(--text-mid);
+    line-height: 1.5;
+    flex: 1;
+    margin-bottom: 0.9rem;
+    font-weight: 300;
+  }
+  .card-footer { display: flex; align-items: center; justify-content: space-between; }
+  .card-price {
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--rose-dark);
+  }
+  .card-price .old { font-size: 0.78rem; color: var(--text-light); text-decoration: line-through; margin-left: 6px; font-weight: 300; }
+  .card-btn {
+    background: var(--rose-dark);
+    color: var(--white);
+    border: none;
+    border-radius: 99px;
+    padding: 8px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.18s;
+  }
+  .card-btn:hover { background: #b05470; }
+
+  /* TRUST STRIP */
+  .trust-strip {
+    background: var(--blush);
+    border-top: 1px solid var(--rose);
+    border-bottom: 1px solid var(--rose);
+    padding: 1.25rem 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+    flex-wrap: wrap;
+  }
+  .trust-item { display: flex; align-items: center; gap: 8px; font-size: 0.82rem; color: var(--text-mid); }
+  .trust-icon { font-size: 1.2rem; }
+
+  /* FOOTER */
+  footer {
+    background: var(--white);
+    border-top: 1px solid var(--rose);
+    padding: 2rem;
+    text-align: center;
+    color: var(--text-light);
+    font-size: 0.78rem;
+    line-height: 1.8;
+  }
+  footer a { color: var(--rose-dark); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  /* DISCLOSURE */
+  .disclosure-bar {
+    background: var(--linen);
+    padding: 0.6rem 2rem;
+    text-align: center;
+    font-size: 0.73rem;
+    color: var(--text-light);
+    border-bottom: 1px solid var(--rose);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .nav-links { display: none; }
+    .hero h1 { font-size: 2rem; }
+    .trust-strip { gap: 1.25rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="disclosure-bar">
+  ✦ This site contains affiliate links. As an Amazon Associate I earn from qualifying purchases. <a href="#disclosure">Learn more</a>
+</div>
+
+<nav>
+  <div class="logo">
+    Baby Hut
+    <span>curated for little ones</span>
+  </div>
+  <div class="nav-links">
+    <a href="#" class="active">Shop</a>
+    <a href="#">Bath Time</a>
+    <a href="#">Nursery</a>
+    <a href="#">Travel</a>
+    <a href="#">About</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow">✦ Hand-picked for your baby</div>
+    <h1>The sweetest finds for your <em>little one</em></h1>
+    <p>Every product here has been carefully chosen for quality, safety, and adorability. Shop our Amazon favourites — delivered right to your door.</p>
+    <a href="#shop" class="hero-cta">Browse all products</a>
+  </div>
+</section>
+
+<div class="filter-bar">
+  <span class="filter-label">Filter by</span>
+  <button class="filter-btn active" data-filter="all">All</button>
+  <button class="filter-btn" data-filter="bath">Bath Time</button>
+  <button class="filter-btn" data-filter="nursery">Nursery</button>
+  <button class="filter-btn" data-filter="feeding">Feeding</button>
+  <button class="filter-btn" data-filter="travel">Travel</button>
+  <button class="filter-btn" data-filter="clothing">Clothing</button>
+  <button class="filter-btn" data-filter="toys">Toys</button>
+</div>
+
+<div class="trust-strip">
+  <div class="trust-item"><span class="trust-icon">🛡️</span> Amazon verified picks</div>
+  <div class="trust-item"><span class="trust-icon">⭐</span> Top-rated by parents</div>
+  <div class="trust-item"><span class="trust-icon">🚚</span> Fast Prime shipping</div>
+  <div class="trust-item"><span class="trust-icon">💛</span> Safety-first always</div>
+</div>
+
+<section class="shop-section" id="shop">
+  <div class="section-header">
+    <h2>Our favourites right now</h2>
+    <span class="count-badge" id="count-label">8 products</span>
+  </div>
+
+  <div class="product-grid" id="product-grid">
+
+    <!-- PRODUCT CARDS
+         To add your own image, replace the emoji div inside .card-img with:
+         <img src="YOUR-IMAGE-URL" alt="Product name" />
+         You can use a hosted image URL or a local file path.
+    -->
+
+    <div class="product-card" data-category="bath">
+      <div class="card-img blush">
+        <span class="card-badge bestseller">Bestseller</span>
+        <!-- Replace below with: <img src="your-image.jpg" alt="Hooded Baby Towel Set" /> -->
+        <span class="emoji-placeholder">🛁</span>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Bath Time</div>
+        <div class="card-name">Hooded Baby Towel Set</div>
+        <div class="card-desc">Ultra-soft 100% cotton. Keeps little ones cosy right out of the bath.</div>
+        <div class="card-footer">
+          <div class="card-price">$18.99 <span class="old">$24.99</span></div>
+          <a href="https://beacons.ai/babythings" class="card-btn" target="_blank" rel="nofollow sponsored">View →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-category="bath">
+      <div class="card-img sky">
+        <span class="card-badge new">New</span>
+        <span class="emoji-placeholder">🐋</span>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Bath Time</div>
+        <div class="card-name">Collapsible Baby Bathtub</div>
+        <div class="card-desc">Space-saving design — folds flat for easy storage and travel.</div>
+        <div class="card-footer">
+          <div class="card-price">$34.99</div>
+          <a href="https://beacons.ai/babythings" class="card-btn" target="_blank" rel="nofollow sponsored">View →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-category="nursery">
+      <div class="card-img sage">
+        <span class="emoji-placeholder">🌿</span>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Nursery</div>
+        <div class="card-name">White Noise Sleep Machine</div>
+        <div class="card-desc">Soothing sounds for deeper, longer sleep. Parent-approved.</div>
+        <div class="card-footer">
+          <div class="card-price">$29.95</div>
+          <a href="https://beacons.ai/babythings" class="card-btn" target="_blank" rel="nofollow sponsored">View →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-category="feeding">
+      <div class="card-img linen">
+        <span class="card-badge bestseller">Bestseller</span>
+        <span class="emoji-placeholder">🍼</span>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Feeding</div>
+        <div class="card-name">Anti-Colic Bottle Set</div>
+        <div class="card-desc">Reduces air intake and fussiness — includes 3 sizes.</div>
+        <div class="card-footer">
+          <div class="card-price">$22.00 <span class="old">$28.00</span></div>
+          <a href="https://beacons.ai/babythings" class="card-btn" target="_blank" rel="nofollow sponsored">View →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-category="clothing">
+      <div class="card-img blush">
+        <span class="emoji-placeholder">🐣</span>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Clothing</div>
+        <div class="card-name">Organic Onesie 5-Pack</div>
+        <div class="card-desc">GOTS-certified organic cotton. Gentle on sensitive newborn skin.</div>
+        <div class="card-footer">
+          <div class="card-price">$26.99</div>
+          <a href="https://beacons.ai/babythings" class="card-btn" target="_blank" rel="nofollow sponsored">View →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-category="toys">
+      <div class="card-img sky">
+        <span class="card-badge new">New</span>
+        <span class="emoji-placeholder">🧸</span>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Toys</div>
+        <div class="card-name">Sensory Play Gym</div>
+        <div class="card-desc">Encourages tummy time with hanging textures and mirrors.</div>
+        <div class="card-footer">
+          <div class="card-price">$49.00</div>
+          <a href="https://beacons.ai/babythings" class="card-btn" target="_blank" rel="nofollow sponsored">View →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-category="travel">
+      <div class="card-img sage">
+        <span class="emoji-placeholder">🚗</span>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Travel</div>
+        <div class="card-name">Compact Stroller</div>
+        <div class="card-desc">One-hand fold, lightweight frame. Perfect for city errands.</div>
+        <div class="card-footer">
+          <div class="card-price">$119.00</div>
+          <a href="https://beacons.ai/babythings" class="card-btn" target="_blank" rel="nofollow sponsored">View →</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="product-card" data-category="nursery">
+      <div class="card-img linen">
+        <span class="emoji-placeholder">😴</span>
+      </div>
+      <div class="card-body">
+        <div class="card-category">Nursery</div>
+        <div class="card-name">Baby Sleep Sack — 2 Pack</div>
+        <div class="card-desc">Wearable blanket with TOG 1.0 rating. Safe, snug, and sweet.</div>
+        <div class="card-footer">
+          <div class="card-price">$31.99 <span class="old">$38.00</span></div>
+          <a href="https://beacons.ai/babythings" class="card-btn" target="_blank" rel="nofollow sponsored">View →</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer id="disclosure">
+  <p style="margin-bottom:0.5rem; color: var(--text-mid); font-size: 0.8rem;">
+    <strong>Affiliate disclosure:</strong> Baby Hut is a participant in the Amazon Associates Program.<br>
+    We earn a small commission on qualifying purchases at no extra cost to you. We only recommend products we genuinely love. #ad #affiliate
+  </p>
+  <p style="margin-top: 1rem;">
+    <a href="#">Pinterest</a> &nbsp;·&nbsp; <a href="https://beacons.ai/babythings">Beacons</a> &nbsp;·&nbsp; <a href="#">About</a> &nbsp;·&nbsp; <a href="#disclosure">Disclosure</a>
+  </p>
+  <p style="margin-top: 0.75rem; font-size: 0.7rem;">© 2026 Baby Hut. Made with love for little ones.</p>
+</footer>
+
+<script>
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.product-card');
+  const countLabel = document.getElementById('count-label');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const filter = btn.dataset.filter;
+      let visible = 0;
+      cards.forEach(card => {
+        const match = filter === 'all' || card.dataset.category === filter;
+        card.style.display = match ? 'flex' : 'none';
+        if (match) visible++;
+      });
+      countLabel.textContent = visible + ' product' + (visible !== 1 ? 's' : '');
+    });
+  });
+</script>
+</body>
+</html>
